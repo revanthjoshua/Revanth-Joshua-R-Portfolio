@@ -34,7 +34,7 @@ form.addEventListener("submit", function (e) {
     } else {
         msg.textContent = "Message sent successfully";
         msg.style.color = "green";
-        alert("Thank you for contacting me, " + name.value + "I'll Reply you soon !!!");
+        alert("Thank you for contacting me, " + name.value + " I'll Reply you soon !!!");
         form.reset();
     }
 });
