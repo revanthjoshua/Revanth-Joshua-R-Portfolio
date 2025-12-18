@@ -1,0 +1,367 @@
+/* ===== RESET ===== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: beige;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    background: black;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: static;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* ===== HERO ===== */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: burlywood;
+}
+
+.hero h2,
+.hero p {
+    animation: slideIn 1s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 60px 20px;
+    width: 100%;
+}
+
+.alt {
+    background-color: antiquewhite;
+}
+
+/* Controlled centering ONLY */
+.section > h2 {
+    text-align: center;
+}
+
+.section > p {
+    text-align: center;
+}
+
+/* Section heading underline 
+.section h2 {
+    position: relative;
+}
+
+.section h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: black;
+    margin: 10px auto 0;
+}*/
+
+/* ===== ABOUT ===== */
+.about-section {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.myimage {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+}
+
+.myimage:hover {
+    transform: scale(1.05);
+}
+
+.about-text {
+    max-width: 1000px;
+    text-align: justify;
+}
+
+.abt,
+.ex,
+.edu,
+.achievement,
+.ctcme {
+    text-align: center;
+}
+
+/* ===== EXPERIENCE / EDUCATION / ACCOMPLISHMENTS ===== */
+.experience-wrapper,
+.education-wrapper,
+.accomplishments-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.experience-content,
+.education-content,
+.accomplishments-content {
+    flex: 1 1 600px;
+}
+
+.experience-photo,
+.education-photo,
+.accomplishments-photo {
+    flex: 1 1 300px;
+}
+
+.experience-photo img,
+.education-photo img,
+.accomplishments-photo img {
+    width: 100%;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+}
+
+.experience-photo img:hover,
+.education-photo img:hover,
+.accomplishments-photo img:hover {
+    transform: scale(1.05);
+}
+
+/* Cards */
+.item,
+.accomplishment-item {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid bisque;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* Center text only where intended */
+.experience-content .item,
+.education-content .item,
+.accomplishments-content .accomplishment-item {
+    text-align: center;
+}
+
+/* ===== SKILLS SECTION ===== */
+.skills-wrapper {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+    align-items: stretch;
+}
+
+.skills-left,
+.skills-right {
+    width: 50%;
+}
+
+.skills-left {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.skills-left .item {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.skills-right {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.skills-right p {
+    text-align: justify;
+    line-height: 1.7;
+}
+
+/* ===== CONTACT ===== */
+#contact {
+    background-color: peachpuff;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+button:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.send-btn {
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* ===== SCROLL ANIMATION ===== */
+.fade-slide {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+}
+
+.fade-slide.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+    .about-section,
+    .experience-wrapper,
+    .education-wrapper,
+    .accomplishments-wrapper,
+    .skills-wrapper {
+        flex-direction: column;
+    }
+
+    .skills-left,
+    .skills-right {
+        width: 100%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}
+
+/* FIX: About Me paragraph readability */
+.about-text p {
+    text-align: justify;
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+/* FIX: Skills focus paragraph */
+.skills-right p {
+    text-align: center;
+    line-height: 1.8;
+    font-size: 16.5px;
+    margin: 0;
+}
+.hhh{
+    text-align: center;
+}
+
+/* Soft hover for content cards */
+.item:hover,
+.accomplishment-item:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+    border-color: #d2b48c;
+}
+
+/* Soft hover for Skills Focus section */
+.skills-right:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+    border-color: #d2b48c;
+}
+
+/* ===== Contact form – professional, subtle interaction ===== */
+
+form input,
+form textarea {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover – quiet but noticeable */
+form input:hover,
+form textarea:hover {
+    border-color: #888;
+}
+
+/* Focus – clean professional cue */
+form input:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
+}
