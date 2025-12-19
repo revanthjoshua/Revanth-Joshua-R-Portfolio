@@ -1,3 +1,17 @@
+const navbar = document.querySelector(".navbar");
+let lastScrollY = window.scrollY;
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 60) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+
+    lastScrollY = window.scrollY;
+});
+
+
 // Smooth scrolling
 document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", e => {
@@ -57,4 +71,10 @@ form.addEventListener("submit", async e => {
         msg.textContent = "Server error. Try again later.";
         msg.style.color = "red";
     }
+});
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
 });
