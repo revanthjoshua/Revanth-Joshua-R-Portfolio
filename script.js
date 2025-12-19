@@ -34,8 +34,45 @@ form.addEventListener("submit", function (e) {
     } else {
         msg.textContent = "Message sent successfully";
         msg.style.color = "green";
-        alert("Thank you for contacting me, " + name.value + " I'll Reply you soon !!!");
+        form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    msg.style.textAlign = "center";
+    msg.style.fontWeight = "bold";
+    msg.style.marginTop = "10px";
+
+    if (!name.value || !email.value || !message.value) {
+        msg.textContent = "Please fill all fields";
+        msg.style.color = "red";
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: name.value,
+                email: email.value,
+                message: message.value
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        msg.textContent = "Message sent successfully";
+        msg.style.color = "green";
         form.reset();
+    } catch (error) {
+        msg.textContent = "Something went wrong. Try again.";
+        msg.style.color = "red";
+    }
+});
+
     }
 });
 
