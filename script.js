@@ -4,117 +4,42 @@ const navLinks = document.querySelector(".nav-links");
 
 let lastScrollY = window.scrollY;
 
-/* ================================
-   HEADER SCROLL BEHAVIOR
-================================ */
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
 
-    // At very top → original black header
+    // At top → original black navbar
     if (currentScroll <= 10) {
-        navbar.classList.remove("nav-hidden");
-        navbar.classList.remove("nav-white");
-        navbar.classList.remove("nav-fade");
+        navbar.classList.remove("white", "hidden");
     }
-
-    // Scrolling down
+    // Scrolling down → fade to white then hide
     else if (currentScroll > lastScrollY) {
-        navbar.classList.add("nav-fade");
-        navbar.classList.add("nav-white");
+        navbar.classList.add("white");
 
         setTimeout(() => {
-            navbar.classList.add("nav-hidden");
-        }, 150);
+            navbar.classList.add("hidden");
+        }, 120);
     }
-
-    // Scrolling up
+    // Scrolling up → show white navbar
     else {
-        navbar.classList.remove("nav-hidden");
-        navbar.classList.add("nav-white");
-        navbar.classList.remove("nav-fade");
+        navbar.classList.remove("hidden");
+        navbar.classList.add("white");
     }
 
     lastScrollY = currentScroll;
 });
 
-/* ================================
-   MOBILE MENU TOGGLE
-================================ */
+/* ===== MOBILE MENU ===== */
 menuToggle.addEventListener("click", () => {
     navLinks.classList.toggle("active");
 });
 
-/* ================================
-   SMOOTH SCROLL (NAV LINKS)
-================================ */
+/* ===== SMOOTH SCROLL ===== */
 document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", e => {
         e.preventDefault();
         navLinks.classList.remove("active");
 
-        document
-            .querySelector(link.getAttribute("href"))
+        document.querySelector(link.getAttribute("href"))
             .scrollIntoView({ behavior: "smooth" });
     });
 });
-
-/* ================================
-   SCROLL REVEAL ANIMATION
-================================ */
-const observer = new IntersectionObserver(
-    entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-            }
-        });
-    },
-    { threshold: 0.2 }
-);
-
-document.querySelectorAll(".fade-slide").forEach(el => {
-    observer.observe(el);
-});
-
-/* ================================
-   CONTACT FORM (SAFE)
-================================ */
-const form = document.getElementById("contactForm");
-const msg = document.getElementById("formMsg");
-
-if (form) {
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const message = document.getElementById("message").value.trim();
-
-        msg.textContent = "";
-        msg.style.textAlign = "center";
-        msg.style.marginTop = "10px";
-
-        if (!name || !email || !message) {
-            msg.textContent = "Please fill all fields";
-            msg.style.color = "red";
-            return;
-        }
-
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, message })
-            });
-
-            if (!res.ok) throw new Error();
-
-            msg.textContent = "Message sent successfully";
-            msg.style.color = "green";
-            form.reset();
-        } catch {
-            msg.textContent = "Server error. Try again later.";
-            msg.style.color = "red";
-        }
-    });
-}
