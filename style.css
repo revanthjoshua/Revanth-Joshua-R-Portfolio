@@ -484,3 +484,22 @@ form textarea:focus {
         display: flex;
     }
 }
+.navbar {
+    transition: background-color 0.3s ease,
+                transform 0.3s ease,
+                opacity 0.3s ease;
+}
+
+.navbar.white {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.navbar.white .logo,
+.navbar.white a {
+    color: black;
+}
+
+.navbar.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}

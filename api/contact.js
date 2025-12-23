@@ -5,11 +5,11 @@ export default function handler(req, res) {
 
     const { name, email, message } = req.body;
 
-    console.log("📩 New Contact Form Submission");
+    console.log("📩 New Contact Message");
     console.log("Name:", name);
     console.log("Email:", email);
     console.log("Message:", message);
-    console.log("———————————————");
+    console.log("----------------------");
 
-    res.status(200).json({ success: true });
+    return res.status(200).json({ success: true });
 }
