@@ -503,3 +503,23 @@ form textarea:focus {
     transform: translateY(-100%);
     opacity: 0;
 }
+/* ===== MOBILE FIX: Skills & Focus layout ===== */
+@media (max-width: 768px) {
+    .skills-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .skills-left,
+    .skills-right {
+        width: 100%;
+    }
+
+    .skills-left .item {
+        text-align: center;
+    }
+
+    .skills-right {
+        text-align: center;
+    }
+}

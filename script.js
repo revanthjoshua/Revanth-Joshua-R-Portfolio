@@ -8,21 +8,22 @@ let lastScroll = window.scrollY;
 window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
 
-    // At top
     if (currentScroll <= 10) {
-        navbar.classList.remove("hidden", "white");
+        // Top of page
+        navbar.classList.remove("white", "hidden");
     }
-    // Scrolling down
-    else if (currentScroll > lastScroll) {
-        navbar.classList.add("white", "hidden");
+    else if (currentScroll > lastScrollY) {
+        // Scrolling down
+        navbar.classList.add("white");
+        navbar.classList.add("hidden");
     }
-    // Scrolling up
     else {
+        // Scrolling up
         navbar.classList.remove("hidden");
         navbar.classList.add("white");
     }
 
-    lastScroll = currentScroll;
+    lastScrollY = currentScroll;
 });
 
 
