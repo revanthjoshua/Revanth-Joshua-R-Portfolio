@@ -1,54 +1,37 @@
-/* ===== NAVBAR ELEMENTS ===== */
-const navbar = document.querySelector(".navbar");
-const menuToggle = document.querySelector(".menu-toggle");
-const navLinks = document.querySelector(".nav-links");
+/* ===== CONTACT FORM VALIDATION ===== */
+const contactForm = document.getElementById("contactForm");
+const statusMsg = document.getElementById("formStatus");
 
-let lastScrollY = window.scrollY;
+contactForm.addEventListener("submit", function (e) {
+    e.preventDefault(); // stops page refresh
 
-/* ===== HEADER SCROLL BEHAVIOR ===== */
-window.addEventListener("scroll", () => {
-    const currentScroll = window.scrollY;
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-    // At top → original black navbar
-    if (currentScroll <= 10) {
-        navbar.classList.remove("white", "hidden");
+    statusMsg.style.color = "#d32f2f"; // default error color
+
+    // EMPTY CHECK
+    if (name === "" || email === "" || message === "") {
+        statusMsg.textContent = "Please write all required fields.";
     }
-    // Scrolling down → turn white then hide
-    else if (currentScroll > lastScrollY) {
-        navbar.classList.add("white");
 
-        setTimeout(() => {
-            navbar.classList.add("hidden");
-        }, 120);
+    // EMAIL CHECK
+    else if (!validateEmail(email)) {
+        statusMsg.textContent = "Please enter a valid email address.";
     }
-    // Scrolling up → show white navbar
+
+    // SUCCESS (frontend only)
     else {
-        navbar.classList.remove("hidden");
-        navbar.classList.add("white");
+        statusMsg.style.color = "#2e7d32";
+        statusMsg.textContent = "Message sent successfully.";
+
+        // Clear inputs
+        contactForm.reset();
     }
-
-    lastScrollY = currentScroll;
 });
 
-/* ===== MOBILE MENU TOGGLE ===== */
-if (menuToggle && navLinks) {
-    menuToggle.addEventListener("click", () => {
-        navLinks.classList.toggle("active");
-    });
+// Email validation function
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
-
-/* ===== SMOOTH SCROLL ===== */
-document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", e => {
-        e.preventDefault();
-
-        if (navLinks) {
-            navLinks.classList.remove("active");
-        }
-
-        const target = document.querySelector(link.getAttribute("href"));
-        if (target) {
-            target.scrollIntoView({ behavior: "smooth" });
-        }
-    });
-});
