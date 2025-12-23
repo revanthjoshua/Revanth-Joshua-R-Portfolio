@@ -1,37 +1,70 @@
-/* ===== CONTACT FORM VALIDATION ===== */
+/* ===== NAVBAR SCROLL EFFECT ===== */
+const navbar = document.querySelector(".navbar");
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+let lastScrollY = window.scrollY;
+
+window.addEventListener("scroll", () => {
+    const currentScroll = window.scrollY;
+
+    if (currentScroll <= 10) {
+        navbar.classList.remove("white", "hidden");
+    } 
+    else if (currentScroll > lastScrollY) {
+        navbar.classList.add("white");
+        navbar.classList.add("hidden");
+    } 
+    else {
+        navbar.classList.remove("hidden");
+        navbar.classList.add("white");
+    }
+
+    lastScrollY = currentScroll;
+});
+
+/* ===== MOBILE MENU ===== */
+menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+
+/* ===== SMOOTH SCROLL ===== */
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        navLinks.classList.remove("active");
+
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+        }
+    });
+});
+
+/* ===== CONTACT FORM (NO REFRESH) ===== */
 const contactForm = document.getElementById("contactForm");
 const statusMsg = document.getElementById("formStatus");
 
-contactForm.addEventListener("submit", function (e) {
-    e.preventDefault(); // stops page refresh
+if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-    statusMsg.style.color = "#d32f2f"; // default error color
+        statusMsg.style.color = "#d32f2f";
 
-    // EMPTY CHECK
-    if (name === "" || email === "" || message === "") {
-        statusMsg.textContent = "Please write all required fields.";
-    }
-
-    // EMAIL CHECK
-    else if (!validateEmail(email)) {
-        statusMsg.textContent = "Please enter a valid email address.";
-    }
-
-    // SUCCESS (frontend only)
-    else {
-        statusMsg.style.color = "#2e7d32";
-        statusMsg.textContent = "Message sent successfully.";
-
-        // Clear inputs
-        contactForm.reset();
-    }
-});
-
-// Email validation function
-function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if (name === "" || email === "" || message === "") {
+            statusMsg.textContent = "Please write all required fields.";
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            statusMsg.textContent = "Please enter a valid email address.";
+        }
+        else {
+            statusMsg.style.color = "#2e7d32";
+            statusMsg.textContent = "Message sent successfully.";
+            contactForm.reset();
+        }
+    });
 }
