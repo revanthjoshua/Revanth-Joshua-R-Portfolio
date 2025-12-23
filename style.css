@@ -329,22 +329,24 @@ button:active {
 }
 
 /* ===== MOBILE ===== */
-@media (max-width: 768px) {
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
 
+/* Mobile */
+@media (max-width: 768px) {
     .menu-toggle {
         display: block;
-        font-size: 24px;
-        cursor: pointer;
-        color: inherit;
     }
 
     .nav-links {
         position: absolute;
-        top: 70px;
+        top: 65px;
         right: 20px;
         background: white;
         flex-direction: column;
-        gap: 10px;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -353,12 +355,14 @@ button:active {
 
     .nav-links a {
         color: black;
+        padding: 8px 0;
     }
 
     .nav-links.active {
         display: flex;
     }
 }
+
 
 /* FIX: About Me paragraph readability */
 .about-text p {
