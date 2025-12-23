@@ -36,7 +36,8 @@ body {
 }
 
 .navbar.white .logo,
-.navbar.white a {
+.navbar.white a,
+.navbar.white .menu-toggle {
     color: black;
 }
 
