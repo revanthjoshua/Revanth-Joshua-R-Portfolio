@@ -16,9 +16,25 @@ window.addEventListener("scroll", () => {
         navbar.classList.add("hidden");
     } 
     else {
-        navbar.classList.remove("hidden");
-        navbar.classList.add("white");
-    }
+    fetch("/api/contact", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, email, message })
+    })
+    .then(res => res.json())
+    .then(() => {
+        statusMsg.style.color = "#2e7d32";
+        statusMsg.textContent = "Message sent successfully.";
+        contactForm.reset();
+    })
+    .catch(() => {
+        statusMsg.style.color = "#d32f2f";
+        statusMsg.textContent = "Something went wrong. Try again.";
+    });
+}
+
 
     lastScrollY = currentScroll;
 });
