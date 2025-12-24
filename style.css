@@ -458,33 +458,7 @@ form textarea:focus {
     cursor: pointer;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
 
-    .nav-links {
-        position: absolute;
-        top: 65px;
-        right: 20px;
-        background: white;
-        flex-direction: column;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        display: none;
-    }
-
-    .nav-links a {
-        color: black;
-        padding: 8px 0;
-    }
-
-    .nav-links.active {
-        display: flex;
-    }
-}
 .navbar {
     transition: background-color 0.3s ease,
                 transform 0.3s ease,
@@ -523,4 +497,78 @@ form textarea:focus {
     .skills-right {
         text-align: center;
     }
+}
+.footer-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #cccccc;
+}
+.footer-links {
+    gap: 12px;
+    font-size: 13px;
+}
+/* ===== CLEAN PROFESSIONAL FOOTER ===== */
+.footer {
+    background-color: #0d0d0d;
+    padding: 32px 0;
+    text-align: center;
+}
+
+.footer-icons {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+}
+
+.footer-icons a {
+    color: #bfbfbf;
+    font-size: 18px;
+    position: relative;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.footer-icons a:hover {
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+/* Tooltip using data-tooltip (ACTUALLY MATCHES YOUR HTML) */
+.footer-icons a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    color: #000;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.footer-icons a:hover::after {
+    opacity: 1;
+}
+.footer-text {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #777;
+    letter-spacing: 0.3px;
 }
