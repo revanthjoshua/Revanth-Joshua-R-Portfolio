@@ -12,7 +12,7 @@ window.addEventListener("scroll", () => {
         // Top of page
         navbar.classList.remove("white", "hidden");
     }
-    else if (currentScroll > lastScrollY) {
+    else if (currentScroll > lastScroll) {
         // Scrolling down
         navbar.classList.add("white");
         navbar.classList.add("hidden");
@@ -23,7 +23,7 @@ window.addEventListener("scroll", () => {
         navbar.classList.add("white");
     }
 
-    lastScrollY = currentScroll;
+    lastScroll = currentScroll;
 });
 
 
