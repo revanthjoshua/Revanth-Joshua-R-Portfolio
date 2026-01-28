@@ -370,8 +370,8 @@ button:active {
     text-align: justify;
     max-width: 1000px;
     margin: 0 auto;
-    line-height: 1.8;
-    font-size: 17px;
+    line-height: 1.85;
+    font-size: 18.5px;
 }
 
 /* FIX: Skills focus paragraph */
