@@ -101,11 +101,3 @@ const observer = new IntersectionObserver(
 
 fadeElements.forEach(el => observer.observe(el));
 
-document.querySelectorAll("#projects .item, .focus-box").forEach(el => {
-  el.addEventListener("mouseenter", () => {
-    el.style.transform = "translateY(-2px)";
-  });
-  el.addEventListener("mouseleave", () => {
-    el.style.transform = "translateY(0)";
-  });
-});
