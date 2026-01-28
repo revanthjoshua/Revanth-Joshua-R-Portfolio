@@ -5,20 +5,22 @@
 
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: "Times New Roman", Times, serif;
     background-color: #f7f7f7;
     padding-top: 80px;
     color: #111;
 }
 
+
 /* ===== UNIVERSAL CARD ===== */
 .card {
     background: #ffffff;
     border-radius: 12px;
-    padding: 24px;
+    padding: 32px;              /* increased */
     border: 1px solid #e6e6e6;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    margin-bottom: 30px;        /* 🔥 THIS IS THE FIX */
 }
 
 .card:hover {
@@ -27,14 +29,19 @@ body {
 }
 
 .card p {
-    text-align: left;
+    /*text-align: left;*/
     line-height: 1.75;
     font-size: 16px;
     margin: 0;
 }
 
+.card {
+    text-align: center;
+}
+
+
 .container {
-    max-width: 1100px;
+    max-width: 1200px;    /* was 1100px */
     margin: 0 auto;
 }
 
@@ -152,7 +159,7 @@ h2::after {
 
 /* ===== SECTIONS ===== */
 .section {
-    padding: 60px 20px;
+    padding: 90px 20px;
     width: 100%;
 }
 
@@ -162,6 +169,9 @@ h2::after {
 
 /* Controlled centering ONLY */
 .section > h2 {
+    margin-bottom: 50px;
+    font-size: 34px;
+    font-weight: bold;
     text-align: center;
 }
 
@@ -659,4 +669,19 @@ form textarea:focus {
     line-height: 1.9;
     text-align: center;
     margin: 0;
+}
+#focus .container {
+    display: flex;
+    justify-content: center;
+}
+
+.skills-wrapper {
+    gap: 40px;   /* increase space between columns */
+}
+.skills-left .card {
+    padding: 24px;
+}
+
+#focus .card {
+    max-width: 900px;
 }
