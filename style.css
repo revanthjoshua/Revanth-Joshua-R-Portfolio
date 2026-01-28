@@ -5,10 +5,48 @@
 
 body {
     margin: 0;
-    font-family:'Times New Roman', Times, serif;
-    background-color: beige;
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f7f7;
     padding-top: 80px;
+    color: #111;
 }
+
+/* ===== UNIVERSAL CARD ===== */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+}
+
+.card p {
+    text-align: left;
+    line-height: 1.75;
+    font-size: 16px;
+    margin: 0;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #c4a46b;
+    margin: 12px auto 0;
+}
+
 
 /* ===== NAVBAR ===== */
 .navbar {
@@ -119,7 +157,7 @@ body {
 }
 
 .alt {
-    background-color: antiquewhite;
+    background-color: #ffffff;
 }
 
 /* Controlled centering ONLY */
@@ -215,7 +253,7 @@ body {
 }
 
 /* Cards */
-.item,
+/*.item,
 .accomplishment-item {
     background: white;
     border-radius: 10px;
@@ -223,7 +261,7 @@ body {
     margin-bottom: 20px;
     border: 1px solid bisque;
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-}
+} */
 
 /* Center text only where intended */
 .experience-content .item,
@@ -257,11 +295,11 @@ body {
     font-weight: bold;
 }
 
-.skills-right {
+/*.skills-right {
     background: white;
     padding: 20px;
     border-radius: 10px;
-}
+} */
 
 .skills-right p {
     text-align: justify;
@@ -270,7 +308,7 @@ body {
 
 /* ===== CONTACT ===== */
 #contact {
-    background-color: peachpuff;
+    background-color: #ffffff;
 }
 
 form {
@@ -597,24 +635,24 @@ form textarea:focus {
     gap: 14px;
 }
 
-.cert-item {
+/*.cert-item {
     background: white;
     padding: 14px 18px;
     border-radius: 8px;
     font-size: 15.5px;
     border-left: 3px solid #d2b48c;
     box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
+} */
 
 /* ===== CURRENT FOCUS ===== */
-.focus-box {
+/*.focus-box {
     max-width: 900px;
     margin: 0 auto;
     padding: 26px 32px;
-    background: #fffaf2;
+    background: #ffffff;
     border-radius: 12px;
     border: 1px solid bisque;
-}
+}*/
 
 .focus-box p {
     font-size: 17px;
