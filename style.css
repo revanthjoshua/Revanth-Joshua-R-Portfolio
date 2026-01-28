@@ -685,3 +685,42 @@ form textarea:focus {
 #focus .card {
     max-width: 900px;
 }
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+        z-index: 1100;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background: #ffffff;
+        flex-direction: column;
+        padding: 16px 20px;
+        border-radius: 10px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        display: none;
+        min-width: 180px;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 10px 0;
+        text-align: center;
+    }
+}
+.menu-toggle:active {
+    transform: scale(0.92);
+}
