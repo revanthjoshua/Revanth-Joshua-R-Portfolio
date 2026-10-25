@@ -1,23 +1,28 @@
-export default function handler(req, res) {
-    console.log("🔥 API HIT");
+import { createClient } from "@supabase/supabase-js";
 
-    if (req.method !== "POST") {
-        console.log("❌ Wrong method:", req.method);
-        return res.status(405).json({ error: "Method not allowed" });
-    }
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
 
-    const { name, email, message } = req.body || {};
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-    if (!name || !email || !message) {
-        console.log("❌ Missing fields:", req.body);
-        return res.status(400).json({ error: "Missing fields" });
-    }
+  const { name, email, message } = req.body;
 
-    console.log("📩 New Contact Message");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Message:", message);
-    console.log("───────────────");
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
 
-    return res.status(200).json({ success: true });
+  const { error } = await supabase
+    .from("contacts")
+    .insert([{ name, email, message }]);
+
+  if (error) {
+    return res.status(500).json({ error: "Database error" });
+  }
+
+  return res.status(200).json({ success: true });
 }
