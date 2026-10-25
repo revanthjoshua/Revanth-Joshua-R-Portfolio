@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+/* Champagne, Caramel & Mocha Palette Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ECE2D7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C9B6A2;
+  border-radius: 4px;
+  border: 2px solid #ECE2D7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #907258;
+}
+
+/* Accessible High-Contrast Focus Ring */
+:focus-visible {
+  outline: 2px solid #907258;
+  outline-offset: 3px;
+}
+
+/* Global Fixed Header Scroll Offsets */
+html {
+  scroll-padding-top: 4.75rem;
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 4.75rem;
+}
+
+/* Calligraphic and Cursive Typography Utilities */
+.font-great-vibes {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-parisienne {
+  font-family: 'Parisienne', cursive;
+}
+
+.font-satisfy {
+  font-family: 'Satisfy', cursive;
+}
+
+/* Refined 3D Card Depth & Perspective Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Multi-layer Warm Editorial Card Shadows */
+.card-depth-subtle {
+  box-shadow: 0 4px 16px -2px rgba(96, 71, 47, 0.08), 0 2px 6px -1px rgba(96, 71, 47, 0.04);
+}
+
+.card-depth-hover {
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-depth-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -6px rgba(96, 71, 47, 0.16), 0 6px 14px -3px rgba(96, 71, 47, 0.08);
+  }
+}
+
+.card-depth-hover:active {
+  transform: translateY(-1px) scale(0.995);
+  box-shadow: 0 8px 18px -4px rgba(96, 71, 47, 0.12);
+}
+
+/* Tactile Button Feedback */
+.btn-editorial-primary {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-editorial-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -3px rgba(96, 71, 47, 0.25);
+  }
+}
+
+.btn-editorial-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(96, 71, 47, 0.18);
+}
+
+.btn-editorial-secondary {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-editorial-secondary:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.btn-editorial-secondary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Subtle Editorial Float Animation */
+@keyframes editorial-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(-12deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-11deg);
+  }
+}
+
+.animate-editorial-float {
+  animation: editorial-float 6s ease-in-out infinite;
+}
+
+/* Tasteful Warm Gradient Section Separator */
+.section-divider-warm {
+  position: relative;
+}
+
+.section-divider-warm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(144, 114, 88, 0.35) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Viewport Scroll Entrance Reveal Utilities */
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Touch Device Target Safeguards */
+@media (pointer: coarse) {
+  a, button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* ==========================================================================
+   Skills Section: High-Contrast Freestanding Logo Grid with Smooth Label Reveal
+   ========================================================================== */
+
+.freestanding-skill-logo {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+/* High-contrast monochrome rest state: crisp, dark charcoal/slate against #D8C9B9 */
+.skill-symbol-reveal {
+  filter: grayscale(100%) brightness(0.45) contrast(1.4) drop-shadow(0 2px 4px rgba(45, 32, 20, 0.08));
+  opacity: 0.78;
+  transition: filter 500ms cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 500ms ease,
+              transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: filter, opacity, transform;
+}
+
+/* Skill Name Label Reveal: completely invisible at rest with zero clutter */
+.skill-label-reveal {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* On Hover, Focus-Visible, Focus-Within, or Touch Active: Symbol Colors Up & Name Slides In */
+.freestanding-skill-logo:hover .skill-symbol-reveal,
+.freestanding-skill-logo:focus-visible .skill-symbol-reveal,
+.freestanding-skill-logo:focus-within .skill-symbol-reveal,
+.freestanding-skill-logo:active .skill-symbol-reveal {
+  filter: grayscale(0%) brightness(1) contrast(1) drop-shadow(0 8px 16px rgba(45, 32, 20, 0.15));
+  opacity: 1;
+  transform: translateY(-4px) scale(1.08);
+}
+
+.freestanding-skill-logo:hover .skill-label-reveal,
+.freestanding-skill-logo:focus-visible .skill-label-reveal,
+.freestanding-skill-logo:focus-within .skill-label-reveal,
+.freestanding-skill-logo:active .skill-label-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.freestanding-skill-logo:focus-visible {
+  outline: 2px dashed #60472F;
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+/* Touch device active / tap support */
+@media (hover: none) {
+  .freestanding-skill-logo:active .skill-symbol-reveal {
+    filter: grayscale(0%) brightness(1) contrast(1);
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  .freestanding-skill-logo:active .skill-label-reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+  }
+
+  .animate-editorial-float {
+    animation: none !important;
+  }
+
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
