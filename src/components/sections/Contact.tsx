@@ -143,7 +143,7 @@ export const Contact: React.FC = () => {
               <img
                 src="/assets/ironman.png"
                 alt="Iron Man Companion pointing to Get in Touch card"
-                className="w-full h-auto object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.55)] drop-shadow-[0_0_20px_rgba(0,240,255,0.22)] relative z-10 select-none [image-rendering:-webkit-optimize-contrast]"
+                className="w-full h-auto object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.55)] relative z-10 select-none [image-rendering:-webkit-optimize-contrast]"
                 style={{ imageRendering: 'auto' }}
                 loading="eager"
                 decoding="async"
