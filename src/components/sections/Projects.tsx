@@ -10,6 +10,7 @@ import {
   createCardVariants,
   cardHoverMotion,
   springTransition,
+  defaultSectionViewport,
 } from '../../utils/motion';
 
 interface ProjectCardProps {
@@ -234,7 +235,7 @@ export const Projects: React.FC = () => {
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.05 }}
+        viewport={defaultSectionViewport}
         variants={containerVariants}
         className="max-w-7xl mx-auto px-6 sm:px-10"
       >
