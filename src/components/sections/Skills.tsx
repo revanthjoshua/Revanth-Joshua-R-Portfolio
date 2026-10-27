@@ -758,7 +758,7 @@ export const Skills: React.FC = () => {
 
       </motion.div>
 
-      {/* Realistic Hulk Hand Smash: positioned at the exact vertical center on the right boundary (top-1/2 -translate-y-1/2) */}
+      {/* Restored Classic Illustrated Punching Hulk Fist with Purple Torn Sleeve & Motion Wind Lines */}
       <motion.div
         style={{
           x: hulkHandX,
@@ -766,15 +766,15 @@ export const Skills: React.FC = () => {
           rotate: hulkHandRotate,
           transformOrigin: 'right center',
         }}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 pointer-events-none select-none w-56 sm:w-64 md:w-72 lg:w-80 xl:w-[360px] max-w-[42vw] h-auto flex items-center justify-end"
+        className="absolute -right-2 sm:-right-4 lg:-right-6 top-[38%] -translate-y-1/2 z-20 pointer-events-none select-none w-64 sm:w-72 md:w-80 lg:w-96 xl:w-[440px] max-w-[48vw] h-auto flex items-center justify-end overflow-visible"
       >
         <motion.div
           animate={
             shouldReduceMotion
               ? {}
               : {
-                  y: [-4, 4, -4],
-                  rotate: [-0.8, 0.8, -0.8],
+                  y: [-3, 3, -3],
+                  rotate: [-0.5, 0.5, -0.5],
                   transition: {
                     duration: 3.8,
                     repeat: Infinity,
@@ -782,12 +782,14 @@ export const Skills: React.FC = () => {
                   },
                 }
           }
-          className="relative w-full h-auto"
+          className="relative w-full h-auto overflow-visible flex items-center justify-end"
         >
           <img
-            src="/images/hulk-hand.png"
-            alt="Realistic Hulk hand emerging dynamically at the vertical center of the right edge"
-            className="w-full h-auto object-contain filter drop-shadow-[0_16px_32px_rgba(5,46,22,0.42)] [image-rendering:-webkit-optimize-contrast]"
+            src="/images/hulk-punch.png"
+            alt="Classic illustrated green Hulk fist with purple torn sleeve cuff and dynamic motion wind lines punching in from the right"
+            width={1443}
+            height={1080}
+            className="w-full h-auto object-contain select-none [image-rendering:-webkit-optimize-contrast] filter drop-shadow-[0_12px_28px_rgba(5,46,22,0.30)]"
             loading="eager"
             decoding="async"
           />
