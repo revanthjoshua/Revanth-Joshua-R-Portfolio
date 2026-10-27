@@ -94,10 +94,10 @@ export const Hero: React.FC = () => {
     const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
     const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
 
-    // Inverse translation for realistic optical depth with balanced, symmetrical response
+    // Inverse translation with enhanced dynamic range for deep, responsive optical depth
     targetMouseRef.current = {
-      x: -x * 72,
-      y: -y * 72,
+      x: -x * 128,
+      y: -y * 110,
     };
   };
 
@@ -113,20 +113,29 @@ export const Hero: React.FC = () => {
       className="relative pt-28 pb-20 md:pt-36 md:pb-32 bg-[#ECE2D7] text-[#28221D] overflow-hidden"
     >
       {/* Subtle Atmospheric Radiance Layers in Champagne & Pearl Stone */}
-      <div className="absolute top-0 right-1/4 w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] rounded-full bg-[#D8C9B9]/50 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-5 sm:left-10 w-[260px] sm:w-[400px] h-[260px] sm:h-[400px] rounded-full bg-[#C9B6A2]/30 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] rounded-full bg-[#D8C9B9]/25 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-5 sm:left-10 w-[260px] sm:w-[400px] h-[260px] sm:h-[400px] rounded-full bg-[#C9B6A2]/20 blur-3xl pointer-events-none" />
 
-      {/* Parallax Tech-Doodle Background Pattern Layer with Soft Atmospheric Blur & Amplified Motion */}
+      {/* Parallax Mountain Sunset Landscape Background Layer with High Clarity & Extended Motion Range */}
       <div
         className="absolute inset-0 pointer-events-none overflow-hidden select-none"
         aria-hidden="true"
       >
         <div
-          className="absolute -top-48 -bottom-48 -left-28 -right-28 bg-repeat opacity-[0.20] mix-blend-multiply will-change-transform filter blur-[2px]"
+          className="absolute -top-36 -bottom-36 -left-36 -right-36 bg-cover bg-center bg-no-repeat opacity-[0.76] filter contrast-[1.04] brightness-[1.01] will-change-transform"
           style={{
-            backgroundImage: `url('/images/hero-pattern.png')`,
-            backgroundSize: '420px 420px',
-            transform: `translate3d(${mouseOffset.x.toFixed(2)}px, ${(scrollY * 0.22 + mouseOffset.y).toFixed(2)}px, 0)`,
+            backgroundImage: `url('/images/hero-mountains.jpg')`,
+            transform: `translate3d(${mouseOffset.x.toFixed(2)}px, ${(scrollY * 0.28 + mouseOffset.y).toFixed(2)}px, 0)`,
+          }}
+        />
+        {/* Transparent Editorial Gradient Vignette: Crisp Sun & Mountain Vista with Smooth Bottom Section Transition */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#ECE2D7]/40 via-transparent to-[#ECE2D7]/90 pointer-events-none" />
+        {/* Soft Radial Text Halo: Maintains Crisp Readability Behind Headline While Keeping Peaks & Sun Crystal Clear */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 55% at 50% 48%, rgba(236, 226, 215, 0.58) 0%, rgba(236, 226, 215, 0.18) 55%, transparent 100%)',
           }}
         />
       </div>
@@ -144,7 +153,7 @@ export const Hero: React.FC = () => {
           </h1>
 
           {/* Cursive Welcome Message: Satisfy Script Exclusively */}
-          <p className="font-satisfy font-['Satisfy',cursive] text-xl sm:text-2xl md:text-[1.75rem] text-[#60472F] leading-relaxed md:leading-[1.85] max-w-4xl lg:max-w-5xl w-full mx-auto px-2 sm:px-4 mb-8 sm:mb-10 text-center font-normal">
+          <p className="font-satisfy font-['Satisfy',cursive] text-xl sm:text-2xl md:text-[1.75rem] text-[#4E351F] leading-relaxed md:leading-[1.85] max-w-4xl lg:max-w-5xl w-full mx-auto px-2 sm:px-4 mb-8 sm:mb-10 text-center font-normal">
             Welcome to my folio. Step inside an evolving showcase of my journey—where intricate logic transforms into fluid web interfaces, and complex data distills into purposeful insights. Take a look below to explore the projects, hands-on experiences, hackathon builds, and verified certifications that define my craft in building practical, beautiful digital products.
           </p>
 
