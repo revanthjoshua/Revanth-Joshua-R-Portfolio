@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ExternalLink, FolderGit2, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { PROJECTS } from '../../data/portfolioData';
 import { ProjectItem } from '../../types/portfolio';
 import { useTilt3D } from '../../hooks/useTilt3D';
@@ -39,7 +39,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     <motion.div
       variants={createCardVariants(shouldReduceMotion)}
       whileHover={cardHoverMotion(shouldReduceMotion)}
-      className={`h-full ${className}`}
+      className={`h-full relative z-20 ${className}`}
     >
       <div
         {...tiltProps}
@@ -217,6 +217,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 export const Projects: React.FC = () => {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [expandedTakeaways, setExpandedTakeaways] = useState<Record<string, boolean>>({});
+  const sectionRef = useRef<HTMLElement>(null);
 
   const toggleTakeaways = (id: string) => {
     setExpandedTakeaways((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -229,14 +230,43 @@ export const Projects: React.FC = () => {
   const headerVariants = createHeaderVariants(shouldReduceMotion);
   const containerVariants = createContainerVariants(0.12, 0.05, shouldReduceMotion);
 
+  // Extended scroll tracking spanning the entire viewport traversal for slow, unhurried rolling physics
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  // Smooth, weighted spring physics for authentic rolling momentum
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 60,
+    damping: 24,
+    restDelta: 0.001,
+  });
+
+  // Realistic Captain America Shield Scroll-driven Rolling Physics:
+  // Non-slip rolling relation: arc length Δx = r * Δθ.
+  // Across 260px of floor traversal, a ~320px diameter shield rotates ~95deg clockwise into upright lock (x: 0px, rotate: 0deg)
+  const shieldX = useTransform(smoothProgress, [0.15, 0.75], [
+    shouldReduceMotion ? '0px' : '-260px',
+    '0px',
+  ]);
+  const shieldRotate = useTransform(smoothProgress, [0.15, 0.75], [
+    shouldReduceMotion ? 0 : -95,
+    0,
+  ]);
+
   return (
-    <section id="projects" className="py-20 sm:py-28 bg-[#A78B71] text-[#ECE2D7] relative border-t border-[#96785F] section-divider-warm">
+    <section
+      id="projects"
+      ref={sectionRef}
+      className="py-20 sm:py-28 bg-[#A78B71] text-[#ECE2D7] relative border-t border-[#96785F] section-divider-warm overflow-hidden"
+    >
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.05 }}
         variants={containerVariants}
-        className="max-w-7xl mx-auto px-6 sm:px-10"
+        className="max-w-7xl mx-auto px-6 sm:px-10 relative z-20"
       >
         
         {/* Section Header */}
@@ -260,8 +290,11 @@ export const Projects: React.FC = () => {
 
         {/* Primary Grid: 3 Real Featured Projects with Responsive Tablet Layout */}
         <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.05 }}
           variants={createContainerVariants(0.1, 0.05, shouldReduceMotion)}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch relative z-20"
         >
           {featuredProjects.map((p, idx) => (
             <ProjectCard
@@ -303,7 +336,7 @@ export const Projects: React.FC = () => {
             initial="hidden"
             animate="visible"
             variants={createContainerVariants(0.08, 0.02, shouldReduceMotion)}
-            className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch"
+            className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch relative z-20"
           >
             {additionalProjects.map((p) => (
               <ProjectCard
@@ -317,6 +350,39 @@ export const Projects: React.FC = () => {
             ))}
           </motion.div>
         )}
+      </motion.div>
+
+      {/* Static Ground Shadow Layer:
+          - Permanently anchored at the bottom-left resting spot (bottom-0 left-0)
+          - Fixed on the ground with soft, grounded ellipse shadow (bg-black/40 blur-md rounded-full)
+          - Remains naturally cast on the floor without translating or rotating with the shield
+      */}
+      <div
+        className="absolute bottom-0 left-0 z-0 pointer-events-none select-none w-64 sm:w-72 md:w-80 lg:w-96 xl:w-[420px] max-w-[45vw] h-10 flex items-end justify-start"
+        aria-hidden="true"
+      >
+        <div className="w-[85%] h-5 ml-2 sm:ml-4 bg-black/40 blur-md rounded-full translate-y-1" />
+      </div>
+
+      {/* Motion Container for Rolling Captain America Shield:
+          - Sits on top of the static shadow (z-10) and behind the project cards (z-20)
+          - Only animates horizontal translation (x) and rolling rotation (rotate)
+      */}
+      <motion.div
+        style={{
+          x: shieldX,
+          rotate: shieldRotate,
+        }}
+        className="absolute bottom-0 left-0 z-10 pointer-events-none select-none w-64 sm:w-72 md:w-80 lg:w-96 xl:w-[420px] max-w-[45vw] h-auto flex flex-col items-start justify-end"
+      >
+        {/* High-Resolution Vibranium Shield Asset with Multi-Layered HD Drop Shadows */}
+        <img
+          src="/images/captain-shield.png"
+          alt="Realistic Captain America vibranium shield grounded in bottom left corner"
+          className="w-full h-auto object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.35)] drop-shadow-[0_8px_16px_rgba(40,34,29,0.40)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] select-none [image-rendering:-webkit-optimize-contrast]"
+          loading="eager"
+          decoding="async"
+        />
       </motion.div>
     </section>
   );

@@ -9,7 +9,7 @@ export interface ScrollRevealOptions {
 export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
   options: ScrollRevealOptions = {}
 ) {
-  const { threshold = 0.1, rootMargin = '0px 0px -50px 0px', delayMs = 0 } = options;
+  const { threshold = 0.2, rootMargin = '-150px 0px', delayMs = 0 } = options;
   const ref = useRef<T | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 

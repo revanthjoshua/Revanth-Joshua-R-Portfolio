@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'fr
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, FileText } from 'lucide-react';
 import { CONTACT_DETAILS } from '../../data/portfolioData';
 import { openResumeModal } from '../resume/ResumeModal';
+import { defaultSectionViewport, createSectionVariants } from '../../utils/motion';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -23,7 +24,7 @@ export const Contact: React.FC = () => {
   // Precise scroll tracking synchronized to Contact section scroll progress
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start end', 'center center'],
+    offset: ['start 85%', 'center center'],
   });
 
   // Organic physics spring for responsive and fluid motion
@@ -33,17 +34,17 @@ export const Contact: React.FC = () => {
     restDelta: 0.001,
   });
 
-  // Card shifts rightwards as the user scrolls into the section
+  // Card shifts rightwards as the user scrolls comfortably into the section
   const cardX = useTransform(
     smoothProgress,
-    [0.1, 0.85],
+    [0.18, 0.88],
     [0, shouldReduceMotion ? 0 : isDesktop ? 65 : 20]
   );
 
   // Iron Man emerges smoothly from BEHIND the card (starts at positive X) to the left side (negative X)
   const ironManX = useTransform(
     smoothProgress,
-    [0.1, 0.85],
+    [0.18, 0.88],
     [
       shouldReduceMotion ? 0 : isDesktop ? 180 : 60,
       shouldReduceMotion ? 0 : isDesktop ? -90 : -25,
@@ -51,9 +52,9 @@ export const Contact: React.FC = () => {
   );
 
   // Progressive opacity, scale, and subtle stabilization tilt in sync with scroll
-  const ironManOpacity = useTransform(smoothProgress, [0.08, 0.4], [0, 1]);
-  const ironManScale = useTransform(smoothProgress, [0.1, 0.85], [0.72, 1]);
-  const ironManRotate = useTransform(smoothProgress, [0.1, 0.85], [6, -3]);
+  const ironManOpacity = useTransform(smoothProgress, [0.15, 0.45], [0, 1]);
+  const ironManScale = useTransform(smoothProgress, [0.18, 0.88], [0.72, 1]);
+  const ironManRotate = useTransform(smoothProgress, [0.18, 0.88], [6, -3]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -106,7 +107,13 @@ export const Contact: React.FC = () => {
       ref={sectionRef}
       className="py-16 sm:py-24 bg-[#ECE2D7] text-[#28221D] relative border-t border-[#C9B6A2]/50 overflow-hidden section-divider-warm"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={defaultSectionViewport}
+        variants={createSectionVariants(shouldReduceMotion)}
+        className="max-w-6xl mx-auto px-4 sm:px-6 relative"
+      >
         
         {/* Animated Companion & Card Flex Container */}
         <div className="relative flex items-center justify-center">
@@ -354,7 +361,7 @@ export const Contact: React.FC = () => {
 
         </div>
 
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 0 550 380" width="100%" height="100%" fill="none" overflow="visible">
+  <defs>
+    <!-- Skin Gradients -->
+    <linearGradient id="hulkSkinGrad" x1="100%" y1="20%" x2="0%" y2="80%">
+      <stop offset="0%" stop-color="#15803D" />
+      <stop offset="35%" stop-color="#22C55E" />
+      <stop offset="65%" stop-color="#16A34A" />
+      <stop offset="100%" stop-color="#14532D" />
+    </linearGradient>
+    <linearGradient id="hulkHighlight" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#86EFAC" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#4ADE80" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="purpleTorn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7E22CE" />
+      <stop offset="50%" stop-color="#581C87" />
+      <stop offset="100%" stop-color="#3B0764" />
+    </linearGradient>
+    <!-- Drop Shadow Filter for Depth -->
+    <filter id="hulkShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="-10" dy="16" stdDeviation="12" flood-color="#052E16" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <g filter="url(#hulkShadow)">
+    <!-- Muscle Arm Base extending from right edge (x=520 to x=280) -->
+    <path d="M520 60 C460 70 400 95 340 125 C305 140 280 152 260 168 C250 188 240 218 250 248 C272 278 312 298 365 318 C435 338 480 348 520 358 Z"
+          fill="url(#hulkSkinGrad)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+
+    <!-- Forearm Muscle Bulge & Shadows -->
+    <path d="M520 95 C460 108 400 135 350 168 C390 208 450 218 520 212 Z" fill="#166534" opacity="0.6" />
+    <path d="M390 148 C440 118 485 102 520 98" stroke="#14532D" stroke-width="6" stroke-linecap="round" />
+    <path d="M365 258 C425 278 475 292 520 298" stroke="#14532D" stroke-width="7" stroke-linecap="round" />
+
+    <!-- Bulging Green Veins on Forearm and Hand -->
+    <path d="M495 125 Q435 145 385 160 T320 190" stroke="#86EFAC" stroke-width="4.5" stroke-linecap="round" opacity="0.85" />
+    <path d="M485 130 Q435 148 387 162 T322 192" stroke="#14532D" stroke-width="2.5" stroke-linecap="round" opacity="0.5" />
+    <path d="M475 268 Q415 252 365 232" stroke="#86EFAC" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+
+    <!-- Massive Clenched Fist (Knuckles punch towards the left: x=60 to x=270) -->
+    
+    <!-- Finger 4: Pinky (Bottom) -->
+    <path d="M250 238 C208 248 168 264 135 274 C112 282 92 268 86 248 C80 226 96 204 124 198 C155 194 198 188 240 194 Z"
+          fill="url(#hulkSkinGrad)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+    <path d="M100 258 C92 244 94 228 112 220 C130 212 152 212 172 214" stroke="#86EFAC" stroke-width="4" stroke-linecap="round" fill="none" />
+
+    <!-- Finger 3: Ring Finger -->
+    <path d="M240 196 C192 202 145 212 108 220 C82 225 66 206 60 184 C54 160 70 138 98 134 C134 125 186 124 235 134 Z"
+          fill="url(#hulkSkinGrad)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+    <path d="M78 196 C70 180 75 162 94 154 C116 146 146 146 172 150" stroke="#86EFAC" stroke-width="5" stroke-linecap="round" fill="none" />
+
+    <!-- Finger 2: Middle Finger (Extending furthest left: knuckle at x=45) -->
+    <path d="M232 134 C180 134 128 140 86 145 C60 149 44 128 38 105 C32 80 50 60 78 55 C116 48 180 54 232 74 Z"
+          fill="url(#hulkSkinGrad)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+    <!-- Big Middle Knuckle highlight -->
+    <path d="M54 116 C46 98 52 80 72 72 C96 62 138 64 170 70" stroke="#86EFAC" stroke-width="6" stroke-linecap="round" fill="none" />
+    <path d="M60 130 C82 132 114 126 140 118" stroke="#052E16" stroke-width="5" stroke-linecap="round" />
+
+    <!-- Finger 1: Index Finger -->
+    <path d="M232 74 C186 68 138 74 102 80 C78 84 64 66 60 48 C56 26 74 12 98 12 C142 12 200 24 252 48 Z"
+          fill="url(#hulkSkinGrad)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+    <path d="M78 54 C72 38 80 24 100 20 C124 16 156 22 186 32" stroke="#86EFAC" stroke-width="5" stroke-linecap="round" fill="none" />
+
+    <!-- Massive Clenched Thumb Locking Across the Fingers -->
+    <path d="M175 90 C144 110 122 146 128 182 C132 208 155 228 184 230 C218 232 248 218 264 192 C280 166 274 124 254 98 C232 78 200 76 175 90 Z"
+          fill="url(#hulkSkinGrad)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+    <!-- Thumb Knuckle Joint and Nail -->
+    <path d="M138 162 C135 182 148 202 170 208 C192 212 212 205 228 192" stroke="#14532D" stroke-width="5" stroke-linecap="round" fill="none" />
+    <path d="M144 146 C138 166 146 188 162 198" stroke="#86EFAC" stroke-width="5" stroke-linecap="round" fill="none" />
+    <!-- Thumb Nail (Hulk Tough Nail) -->
+    <path d="M196 212 C186 220 174 220 168 212 C164 204 172 196 182 194 C194 192 202 200 196 212 Z" fill="#15803D" stroke="#09090B" stroke-width="3.5" />
+
+    <!-- Palm Shadow & Creases -->
+    <path d="M228 110 C212 136 206 168 212 194" stroke="#052E16" stroke-width="6" stroke-linecap="round" />
+    <path d="M248 140 C238 166 240 192 254 212" stroke="#052E16" stroke-width="5" stroke-linecap="round" />
+
+    <!-- Back of Hand Tendons -->
+    <path d="M258 84 Q300 105 342 120" stroke="#86EFAC" stroke-width="4.5" stroke-linecap="round" opacity="0.75" />
+    <path d="M268 134 Q310 150 352 160" stroke="#86EFAC" stroke-width="4.5" stroke-linecap="round" opacity="0.75" />
+    <path d="M264 196 Q305 202 358 206" stroke="#14532D" stroke-width="5.5" stroke-linecap="round" />
+
+    <!-- Iconic Torn Purple Sleeve / Cuff at Right Edge -->
+    <path d="M450 50 L468 95 L445 130 L474 170 L452 210 L478 250 L456 290 L484 330 L462 370 L520 370 L520 50 Z"
+          fill="url(#purpleTorn)" stroke="#09090B" stroke-width="8" stroke-linejoin="round" />
+    <!-- Purple fabric highlights & tears -->
+    <path d="M472 80 L495 95 M462 155 L488 165 M468 235 L498 245 M474 305 L505 315" stroke="#C084FC" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M456 110 L478 120 M460 190 L482 200 M464 270 L490 280" stroke="#3B0764" stroke-width="4.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Comic Impact / Kinetic Energy Shockwave Arcs radiating from knuckles -->
+  <g opacity="0.9">
+    <!-- Arc 1 -->
+    <path d="M32 64 C12 94 6 136 22 176" stroke="#EAB308" stroke-width="6.5" stroke-linecap="round" stroke-dasharray="14 10" />
+    <!-- Arc 2 -->
+    <path d="M16 42 C-14 84 -18 146 6 198" stroke="#F97316" stroke-width="5" stroke-linecap="round" stroke-dasharray="18 12" />
+    <!-- Kinetic Burst Spokes -->
+    <path d="M28 48 L-2 26" stroke="#EAB308" stroke-width="5.5" stroke-linecap="round" />
+    <path d="M12 100 L-20 95" stroke="#EAB308" stroke-width="6" stroke-linecap="round" />
+    <path d="M15 152 L-18 162" stroke="#EAB308" stroke-width="5.5" stroke-linecap="round" />
+    <path d="M32 192 L8 222" stroke="#EAB308" stroke-width="5" stroke-linecap="round" />
+    <!-- Debris Cracks / Impact Specks -->
+    <polygon points="-8,74 -16,82 -4,86" fill="#78350F" />
+    <polygon points="-2,126 -10,132 0,138" fill="#78350F" />
+    <polygon points="4,166 -6,174 2,178" fill="#78350F" />
+  </g>
+
+  <!-- Powerful Punch Wind & Motion Speed Lines -->
+  <g opacity="0.8" stroke="#ECE2D7" stroke-linecap="round">
+    <path d="M110 38 L-15 38" stroke-width="3" stroke-dasharray="28 14" />
+    <path d="M170 22 L20 22" stroke-width="2.5" stroke-dasharray="22 12" />
+    <path d="M125 340 L-10 340" stroke-width="3" stroke-dasharray="28 14" />
+    <path d="M185 356 L30 356" stroke-width="2.5" stroke-dasharray="22 12" />
+    <path d="M60 190 L-22 190" stroke-width="3.5" stroke-dasharray="24 12" />
+  </g>
+</svg>

@@ -30,15 +30,29 @@ export const snappySpringTransition: Transition = {
 
 // Editorial cubic-bezier easing for text and header reveals
 export const editorialEase: Transition = {
-  duration: 0.6,
+  duration: 0.7,
   ease: [0.22, 1, 0.36, 1],
 };
 
-// Section Header Variant (Subtle upward fade)
-export const createHeaderVariants = (shouldReduceMotion = false): Variants => ({
+/**
+ * Calibrated Viewport Trigger Configuration for Section Entrances
+ * 
+ * Uses a negative margin of '-150px' and threshold amount of 0.2
+ * to ensure sections wait until they are comfortably inside the active viewport
+ * before smoothly fading and sliding into place, preventing premature triggering
+ * during slow scrolling.
+ */
+export const defaultSectionViewport = {
+  once: true,
+  margin: '-150px',
+  amount: 0.2,
+};
+
+// Full Section Entrance Variant (smooth fade and gentle slide upward)
+export const createSectionVariants = (shouldReduceMotion = false): Variants => ({
   hidden: {
     opacity: 0,
-    y: shouldReduceMotion ? 0 : 20,
+    y: shouldReduceMotion ? 0 : 32,
   },
   visible: {
     opacity: 1,
@@ -46,7 +60,25 @@ export const createHeaderVariants = (shouldReduceMotion = false): Variants => ({
     transition: shouldReduceMotion
       ? { duration: 0.01 }
       : {
-          duration: 0.55,
+          duration: 0.75,
+          ease: [0.22, 1, 0.36, 1],
+        },
+  },
+});
+
+// Section Header Variant (Subtle upward fade)
+export const createHeaderVariants = (shouldReduceMotion = false): Variants => ({
+  hidden: {
+    opacity: 0,
+    y: shouldReduceMotion ? 0 : 28,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: shouldReduceMotion
+      ? { duration: 0.01 }
+      : {
+          duration: 0.7,
           ease: [0.22, 1, 0.36, 1],
         },
   },
@@ -54,8 +86,8 @@ export const createHeaderVariants = (shouldReduceMotion = false): Variants => ({
 
 // Staggered Container Variant for Grids & Lists
 export const createContainerVariants = (
-  staggerDelay = 0.1,
-  delayChildren = 0.05,
+  staggerDelay = 0.12,
+  delayChildren = 0.06,
   shouldReduceMotion = false
 ): Variants => ({
   hidden: {
@@ -76,7 +108,7 @@ export const createContainerVariants = (
 export const createCardVariants = (shouldReduceMotion = false): Variants => ({
   hidden: {
     opacity: 0,
-    y: shouldReduceMotion ? 0 : 24,
+    y: shouldReduceMotion ? 0 : 32,
   },
   visible: {
     opacity: 1,
@@ -84,7 +116,7 @@ export const createCardVariants = (shouldReduceMotion = false): Variants => ({
     transition: shouldReduceMotion
       ? { duration: 0.01 }
       : {
-          duration: 0.55,
+          duration: 0.7,
           ease: [0.22, 1, 0.36, 1],
         },
   },

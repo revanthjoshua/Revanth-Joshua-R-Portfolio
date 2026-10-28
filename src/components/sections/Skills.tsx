@@ -1,9 +1,10 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { SkillCategory } from '../../types/portfolio';
 import {
   createHeaderVariants,
   createContainerVariants,
+  defaultSectionViewport,
 } from '../../utils/motion';
 
 interface TechTool {
@@ -451,9 +452,59 @@ export const Skills: React.FC = () => {
   const headerVariants = createHeaderVariants(shouldReduceMotion);
   const containerVariants = createContainerVariants(0.08, 0.05, shouldReduceMotion);
 
+  const sectionRef = useRef<HTMLElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const centersRef = useRef<{ x: number; y: number }[]>([]);
+
+  // Viewport tracking for responsive shift offsets
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isDesktop = windowWidth >= 1024;
+  const isTablet = windowWidth >= 768 && windowWidth < 1024;
+
+  // Scroll tracking synchronized to Skills section scroll progress
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 85%', 'center center'],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 22,
+    restDelta: 0.001,
+  });
+
+  // Hulk Hand Smash reveal transforms:
+  // At rest (scrollProgress <= 0.15): tucked completely off-screen to the right (x: "115%")
+  // On scroll (0.15 -> 0.85): slides/smashes inward from the right (x: "0%") with dynamic rotation & scale
+  const hulkHandX = useTransform(smoothProgress, [0.15, 0.85], [
+    shouldReduceMotion ? '0%' : '115%',
+    '0%',
+  ]);
+  const hulkHandRotate = useTransform(smoothProgress, [0.15, 0.85], [
+    shouldReduceMotion ? 0 : 5,
+    0,
+  ]);
+  const hulkHandScale = useTransform(smoothProgress, [0.15, 0.85], [0.94, 1.0]);
+
+  // Skill logos container shifts smoothly further to the left to make ample clearance for the vertically centered Hulk fist
+  const logosShiftX = useTransform(smoothProgress, (val) => {
+    if (shouldReduceMotion) return 0;
+    if (val <= 0.15) return 0;
+    if (val >= 0.85) return isDesktop ? -180 : isTablet ? -110 : -45;
+    const progress = (val - 0.15) / (0.85 - 0.15);
+    const maxShift = isDesktop ? -180 : isTablet ? -110 : -45;
+    return progress * maxShift;
+  });
 
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -603,11 +654,15 @@ export const Skills: React.FC = () => {
   ];
 
   return (
-    <section id="skills" className="pt-20 sm:pt-28 pb-16 sm:pb-20 bg-[#D8C9B9] text-[#28221D] relative border-t border-[#C9B6A2]/50 section-divider-warm overflow-hidden">
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="pt-20 sm:pt-28 pb-16 sm:pb-20 bg-[#D8C9B9] text-[#28221D] relative border-t border-[#C9B6A2]/50 section-divider-warm overflow-hidden"
+    >
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.06 }}
+        viewport={defaultSectionViewport}
         variants={containerVariants}
         className="max-w-7xl mx-auto px-6 sm:px-10"
       >
@@ -619,83 +674,126 @@ export const Skills: React.FC = () => {
           </h2>
         </motion.div>
 
-        {/* Staggered Honeycomb Apple Watch-Style Fish-Eye Grid Container */}
-        <div
-          ref={containerRef}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={handlePointerLeave}
-          className="relative flex flex-col items-center justify-center pt-2 sm:pt-4 pb-2 sm:pb-4 select-none touch-pan-y overflow-visible"
+        {/* Staggered Honeycomb Apple Watch-Style Fish-Eye Grid Container with Scroll-driven Left Shift */}
+        <motion.div
+          style={{ x: logosShiftX }}
+          className="relative w-full overflow-visible"
         >
-          {rows.map((row, rowIndex) => {
-            const isOddRow = rowIndex % 2 === 1;
-            // Exact mathematical half-pitch horizontal offset ensures odd rows nest directly into adjacent notches
-            const rowOffsetClass = isOddRow
-              ? 'translate-x-5 sm:translate-x-7 md:translate-x-9 lg:translate-x-10 xl:translate-x-11'
-              : '-translate-x-5 sm:-translate-x-7 md:-translate-x-9 lg:-translate-x-10 xl:-translate-x-11';
-            // Balanced honeycomb interlocking nesting
-            const rowMarginClass = rowIndex === 0 ? '' : '-mt-1 sm:-mt-1.5 md:-mt-2 lg:-mt-2.5';
+          <div
+            ref={containerRef}
+            onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            className="relative flex flex-col items-center justify-center pt-2 sm:pt-4 pb-2 sm:pb-4 select-none touch-pan-y overflow-visible"
+          >
+            {rows.map((row, rowIndex) => {
+              const isOddRow = rowIndex % 2 === 1;
+              // Exact mathematical half-pitch horizontal offset ensures odd rows nest directly into adjacent notches
+              const rowOffsetClass = isOddRow
+                ? 'translate-x-5 sm:translate-x-7 md:translate-x-9 lg:translate-x-10 xl:translate-x-11'
+                : '-translate-x-5 sm:-translate-x-7 md:-translate-x-9 lg:-translate-x-10 xl:-translate-x-11';
+              // Balanced honeycomb interlocking nesting
+              const rowMarginClass = rowIndex === 0 ? '' : '-mt-1 sm:-mt-1.5 md:-mt-2 lg:-mt-2.5';
 
-            return (
-              <div
-                key={`honeycomb-row-${rowIndex}`}
-                className={`flex items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-11 ${rowOffsetClass} ${rowMarginClass}`}
-              >
-                {row.map((tool, colIndex) => {
-                  const index = rowIndex * ROW_SIZE + colIndex;
-                  const style = getFishEyeStyle(index);
+              return (
+                <div
+                  key={`honeycomb-row-${rowIndex}`}
+                  className={`flex items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-11 ${rowOffsetClass} ${rowMarginClass}`}
+                >
+                  {row.map((tool, colIndex) => {
+                    const index = rowIndex * ROW_SIZE + colIndex;
+                    const style = getFishEyeStyle(index);
 
-                  return (
-                    <div
-                      key={tool.name}
-                      ref={(el) => {
-                        itemRefs.current[index] = el;
-                      }}
-                      onPointerEnter={() => setHoveredIndex(index)}
-                      onPointerLeave={() => {
-                        if (hoveredIndex === index) setHoveredIndex(null);
-                      }}
-                      onFocus={() => setHoveredIndex(index)}
-                      onBlur={() => setHoveredIndex(null)}
-                      tabIndex={0}
-                      role="img"
-                      aria-label={tool.name}
-                      title={tool.name}
-                      style={{
-                        transform: style.transform,
-                        filter: style.filter,
-                        opacity: style.opacity,
-                        zIndex: style.zIndex,
-                        transition: shouldReduceMotion
-                          ? 'none'
-                          : 'transform 260ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease, opacity 300ms ease',
-                        willChange: 'transform, filter, opacity',
-                      }}
-                      className="flex flex-col items-center justify-start relative cursor-pointer outline-none select-none w-18 sm:w-22 md:w-24 lg:w-28 xl:w-30"
-                    >
-                      {/* Standalone Symbol: Balanced prominent icon container */}
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 xl:w-21 xl:h-21 flex items-center justify-center pointer-events-none p-1 sm:p-1.5">
-                        {tool.icon}
+                    return (
+                      <div
+                        key={tool.name}
+                        ref={(el) => {
+                          itemRefs.current[index] = el;
+                        }}
+                        onPointerEnter={() => setHoveredIndex(index)}
+                        onPointerLeave={() => {
+                          if (hoveredIndex === index) setHoveredIndex(null);
+                        }}
+                        onFocus={() => setHoveredIndex(index)}
+                        onBlur={() => setHoveredIndex(null)}
+                        tabIndex={0}
+                        role="img"
+                        aria-label={tool.name}
+                        title={tool.name}
+                        style={{
+                          transform: style.transform,
+                          filter: style.filter,
+                          opacity: style.opacity,
+                          zIndex: style.zIndex,
+                          transition: shouldReduceMotion
+                            ? 'none'
+                            : 'transform 260ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease, opacity 300ms ease',
+                          willChange: 'transform, filter, opacity',
+                        }}
+                        className="flex flex-col items-center justify-start relative cursor-pointer outline-none select-none w-18 sm:w-22 md:w-24 lg:w-28 xl:w-30"
+                      >
+                        {/* Standalone Symbol: Balanced prominent icon container */}
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 xl:w-21 xl:h-21 flex items-center justify-center pointer-events-none p-1 sm:p-1.5">
+                          {tool.icon}
+                        </div>
+
+                        {/* Skill Name: Reserved height prevents layout jump, revealed smoothly ONLY on hover/focus */}
+                        <div className="h-6 sm:h-7 flex items-center justify-center mt-1 sm:mt-1.5 w-full overflow-visible pointer-events-none">
+                          <span
+                            style={{ color: tool.textColor }}
+                            className={`text-[11px] sm:text-xs md:text-sm font-bold tracking-wide text-center whitespace-nowrap drop-shadow-sm transition-all duration-200 ${
+                              style.isFocused ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 -translate-y-1'
+                            }`}
+                          >
+                            {tool.name}
+                          </span>
+                        </div>
                       </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
 
-                      {/* Skill Name: Reserved height prevents layout jump, revealed smoothly ONLY on hover/focus */}
-                      <div className="h-6 sm:h-7 flex items-center justify-center mt-1 sm:mt-1.5 w-full overflow-visible pointer-events-none">
-                        <span
-                          style={{ color: tool.textColor }}
-                          className={`text-[11px] sm:text-xs md:text-sm font-bold tracking-wide text-center whitespace-nowrap drop-shadow-sm transition-all duration-200 ${
-                            style.isFocused ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 -translate-y-1'
-                          }`}
-                        >
-                          {tool.name}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+      </motion.div>
 
+      {/* Restored Classic Illustrated Punching Hulk Fist with Purple Torn Sleeve & Motion Wind Lines */}
+      <motion.div
+        style={{
+          x: hulkHandX,
+          scale: hulkHandScale,
+          rotate: hulkHandRotate,
+          transformOrigin: 'right center',
+        }}
+        className="absolute -right-2 sm:-right-4 lg:-right-6 top-[38%] -translate-y-1/2 z-20 pointer-events-none select-none w-64 sm:w-72 md:w-80 lg:w-96 xl:w-[440px] max-w-[48vw] h-auto flex items-center justify-end overflow-visible"
+      >
+        <motion.div
+          animate={
+            shouldReduceMotion
+              ? {}
+              : {
+                  y: [-3, 3, -3],
+                  rotate: [-0.5, 0.5, -0.5],
+                  transition: {
+                    duration: 3.8,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  },
+                }
+          }
+          className="relative w-full h-auto overflow-visible flex items-center justify-end"
+        >
+          <img
+            src="/images/hulk-punch.png"
+            alt="Classic illustrated green Hulk fist with purple torn sleeve cuff and dynamic motion wind lines punching in from the right"
+            width={1443}
+            height={1080}
+            className="w-full h-auto object-contain select-none [image-rendering:-webkit-optimize-contrast] filter drop-shadow-[0_12px_28px_rgba(5,46,22,0.30)]"
+            loading="eager"
+            decoding="async"
+          />
+        </motion.div>
       </motion.div>
     </section>
   );
