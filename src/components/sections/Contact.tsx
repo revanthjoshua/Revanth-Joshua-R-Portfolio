@@ -6,7 +6,7 @@ import { openResumeModal } from '../resume/ResumeModal';
 import { defaultSectionViewport, createSectionVariants } from '../../utils/motion';
 
 export const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formValues, setFormValues] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -57,21 +57,25 @@ export const Contact: React.FC = () => {
   const ironManRotate = useTransform(smoothProgress, [0.18, 0.88], [6, -3]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (status !== 'idle') setStatus('idle');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { name, email, message } = formData;
-    if (!name.trim() || !email.trim() || !message.trim()) {
+    const formData = new FormData(e.currentTarget);
+    const senderName = ((formData.get('name') as string) || formValues.name || '').trim();
+    const senderEmail = ((formData.get('email') as string) || formValues.email || '').trim();
+    const senderMessage = ((formData.get('message') as string) || formValues.message || '').trim();
+
+    if (!senderName || !senderEmail || !senderMessage) {
       setStatus('error');
       setErrorMessage('Please fill in your name, email, and message.');
       return;
     }
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    if (!/\S+@\S+\.\S+/.test(senderEmail)) {
       setStatus('error');
       setErrorMessage('Please enter a valid email address.');
       return;
@@ -80,20 +84,49 @@ export const Contact: React.FC = () => {
     setStatus('loading');
     setErrorMessage('');
 
+    // Ensure normalized values and required Web3Forms parameters
+    formData.set('name', senderName);
+    formData.set('email', senderEmail);
+    formData.set('message', senderMessage);
+    formData.append('access_key', 'c62bd1fa-328e-4191-a96b-c3f767798f69');
+    formData.append('subject', `New Portfolio Contact Message from ${senderName}`);
+
+    // Dual-save backup to Supabase (via /api/contact) running alongside Web3Forms
+    // Uses AbortController with a 4s timeout so it never hangs or fails the submission even if Supabase is paused
+    const sendSupabaseBackup = async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: senderName, email: senderEmail, message: senderMessage }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+      } catch (err) {
+        // Non-blocking catch: Supabase being paused or unreachable should never block or fail the user
+        console.warn('Supabase dual-save backup notice (non-fatal):', err);
+      }
+    };
+
+    // Run Supabase backup concurrently without awaiting or blocking the primary submission
+    sendSupabaseBackup();
+
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
       });
 
-      if (res.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormValues({ name: '', email: '', message: '' });
       } else {
-        const data = await res.json().catch(() => ({}));
         setStatus('error');
-        setErrorMessage(data.error || 'Server error. Please reach out directly via email.');
+        setErrorMessage(data.message || 'Submission error. Please reach out directly via email.');
       }
     } catch {
       setStatus('error');
@@ -114,10 +147,10 @@ export const Contact: React.FC = () => {
         variants={createSectionVariants(shouldReduceMotion)}
         className="max-w-6xl mx-auto px-4 sm:px-6 relative"
       >
-        
+
         {/* Animated Companion & Card Flex Container */}
         <div className="relative flex items-center justify-center">
-          
+
           {/* Realistic Iron Man Companion (Starts Tucked Behind Card, Slides Out to Left) */}
           <motion.div
             style={{
@@ -133,13 +166,13 @@ export const Contact: React.FC = () => {
                 shouldReduceMotion
                   ? {}
                   : {
-                      y: [-3, 4, -3],
-                      transition: {
-                        duration: 3.5,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      },
-                    }
+                    y: [-3, 4, -3],
+                    transition: {
+                      duration: 3.5,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    },
+                  }
               }
               className="relative w-44 sm:w-56 lg:w-64 xl:w-[19rem] h-auto flex flex-col items-center"
             >
@@ -175,7 +208,7 @@ export const Contact: React.FC = () => {
 
             {/* Clean Split Layout: Left Info (5 cols) & Right Form (7 cols) */}
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-              
+
               {/* Left Column: Heading & Direct Channels */}
               <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
                 <div>
@@ -260,7 +293,7 @@ export const Contact: React.FC = () => {
 
               {/* Right Column: Sleek Contact Form */}
               <div className="lg:col-span-7 bg-[#4B3622]/50 p-6 sm:p-8 rounded-2xl border border-[#72553B] shadow-inner flex flex-col justify-between">
-                
+
                 <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#ECE2D7]/15">
                   <span className="font-serif text-lg sm:text-xl font-normal text-[#ECE2D7]">
                     Send a Message
@@ -295,7 +328,7 @@ export const Contact: React.FC = () => {
                       type="text"
                       name="name"
                       required
-                      value={formData.name}
+                      value={formValues.name}
                       onChange={handleChange}
                       placeholder="e.g. Alex Vance"
                       className="w-full px-4 py-2.5 rounded-xl bg-[#ECE2D7] text-[#28221D] placeholder:text-[#8D8176] text-sm focus:outline-none focus:ring-2 focus:ring-[#C9B6A2] border border-[#BBA48E] transition-all shadow-xs"
@@ -311,7 +344,7 @@ export const Contact: React.FC = () => {
                       type="email"
                       name="email"
                       required
-                      value={formData.email}
+                      value={formValues.email}
                       onChange={handleChange}
                       placeholder="alex@domain.com"
                       className="w-full px-4 py-2.5 rounded-xl bg-[#ECE2D7] text-[#28221D] placeholder:text-[#8D8176] text-sm focus:outline-none focus:ring-2 focus:ring-[#C9B6A2] border border-[#BBA48E] transition-all shadow-xs"
@@ -327,7 +360,7 @@ export const Contact: React.FC = () => {
                       name="message"
                       rows={3}
                       required
-                      value={formData.message}
+                      value={formValues.message}
                       onChange={handleChange}
                       placeholder="How can we collaborate?"
                       className="w-full px-4 py-2.5 rounded-xl bg-[#ECE2D7] text-[#28221D] placeholder:text-[#8D8176] text-sm focus:outline-none focus:ring-2 focus:ring-[#C9B6A2] border border-[#BBA48E] transition-all shadow-xs resize-y"
@@ -364,4 +397,7 @@ export const Contact: React.FC = () => {
       </motion.div>
     </section>
   );
+
 };
+
+export default Contact;
